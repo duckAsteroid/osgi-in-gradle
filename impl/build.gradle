@@ -1,0 +1,12 @@
+description = 'A simple implementation'
+		
+dependencies {
+	compile project (':api')
+	compile 'commons-io:commons-io:2.4'
+}
+
+jar {
+	manifest {
+		instruction 'Service-Component' ,'OSGI-INF/quotes.xml'
+	}
+}

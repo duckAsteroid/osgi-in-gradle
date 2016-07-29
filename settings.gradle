@@ -1,0 +1,5 @@
+rootProject.name = 'osgi'
+include ':api'
+include ':impl'
+include ':consumer'
+include ':integration-test'

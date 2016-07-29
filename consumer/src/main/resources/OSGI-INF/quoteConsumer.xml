@@ -1,0 +1,7 @@
+<component name="Simple Quote Aggregator">
+    <implementation class="com.asteroid.duck.quotes.consumer.impl.AggregatorImpl"/>
+    <reference bind="bindQuoteService" cardinality="1..1" interface="com.asteroid.duck.quotes.QuoteService" name="quoteService" policy="static" unbind="unbindQuoteService"/>
+    <service>
+        <provide interface="com.asteroid.duck.quotes.consumer.QuoteAggregator"/>
+    </service>
+</component>

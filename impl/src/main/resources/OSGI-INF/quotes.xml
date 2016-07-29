@@ -1,0 +1,6 @@
+<component name="Simple Quote Service">
+    <implementation class="com.asteroid.duck.quotes.impl.QuoteServiceImpl"/>
+    <service>
+        <provide interface="com.asteroid.duck.quotes.QuoteService"/>
+    </service>
+</component>

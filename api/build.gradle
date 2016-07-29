@@ -1,0 +1,5 @@
+description = 'Quote service API'
+		
+dependencies {
+	// Add project dependencies here
+}

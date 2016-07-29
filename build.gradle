@@ -1,0 +1,34 @@
+task checkJavaVersion {
+    description 'Checks correct Java version'
+    def javaVersionString = System.getProperty("java.version")
+    int pos = javaVersionString.indexOf('.');
+    pos = javaVersionString.indexOf('.', pos + 1); // second 'dot'
+    double javaVersion = Double.parseDouble(javaVersionString.substring(0, pos));
+    //fail the build if we don't have the expected Java version
+    if (javaVersion < 1.6) {
+        throw new RuntimeException("Found Java version ${javaVersionString}. Please update JAVA_HOME (or use gradle.properties) to use a >= 1.6 JDK")
+    }
+    else {
+        println "Java version ${javaVersionString} is OK"
+    }
+}
+
+
+subprojects {
+    group 'com.asteroid.duck'
+    version '1.0'
+
+    apply plugin: 'java'
+
+    if (!project.name.equalsIgnoreCase("integration-test")) {
+        apply plugin: 'osgi'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+    }
+}

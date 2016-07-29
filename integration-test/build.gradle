@@ -1,0 +1,50 @@
+description = 'Integration test of consumer and API impl'
+
+
+ext {
+    paxExamVersion = '2.3.0.M1'
+}
+
+test {
+    // set a system property for the test JVM(s)
+    systemProperty 'http.proxyHost','proxyvipfra.nb.ford.com'
+    systemProperty 'http.proxyPort', 83
+    systemProperty 'http.nonProxyHosts', 'accurev|rally|localhost|ubuild|*.ford.com'
+
+    systemProperty 'https.proxyHost', 'proxyvipfra.nb.ford.com'
+    systemProperty 'https.proxyPort', 83
+    systemProperty 'https.nonProxyHosts', 'accurev|rally|localhost|ubuild|*.ford.com'
+}
+
+dependencies {
+	compile project (':api'),
+            project(':consumer')
+
+    runtime project(':impl')
+
+    testCompile "org.ops4j.pax.exam:pax-exam-junit4:"+paxExamVersion,
+            "javax.inject:javax.inject:1",
+            "commons-io:commons-io:2.4",
+            "org.osgi:org.osgi.core:6.0.0"
+
+
+    testRuntime "org.ops4j.pax.exam:pax-exam-container-native:"+ paxExamVersion,
+            "org.ops4j.pax.exam:pax-exam-link-mvn:"+paxExamVersion,
+            "org.ops4j.pax.url:pax-url-aether:1.3.5",
+            "org.apache.felix:org.apache.felix.framework:4.0.2",
+            "org.apache.felix:org.apache.felix.shell:1.4.3",
+            "org.apache.felix:org.apache.felix.shell.remote:1.1.2",
+            "org.apache.felix:org.apache.felix.scr:1.0.8",
+            "org.slf4j:slf4j-simple:1.7.13"
+}
+
+// write the Gradle classpath (JAR files) to a temporary file in the buildDir
+// Normally ./build/gradle.classpath)
+task writeClasspath << {
+    buildDir.mkdirs();
+    String classPathText = configurations.testRuntime.asPath;
+    classPathText = classPathText.replaceAll(";", "\n");
+    new File(buildDir, "gradle.classpath").text =  classPathText + "\n"
+}
+
+compileJava.dependsOn writeClasspath

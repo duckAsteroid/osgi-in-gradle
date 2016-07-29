@@ -1,0 +1,11 @@
+description = 'A simple quote aggregator'
+		
+dependencies {
+	compile project(':api')
+}
+
+jar {
+    manifest {
+        instruction 'Service-Component', 'OSGI-INF/quoteConsumer.xml'
+    }
+}
